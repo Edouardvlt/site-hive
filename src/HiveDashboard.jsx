@@ -42,26 +42,22 @@ const HiveDashboard = () => {
     ];
 
     const initialPersonalGear = [
-        { id: 1, item: "Billet Festival (PDF + Wallet)", checked: false, critical: true },
-        { id: 2, item: "Passeport / CNI Valide", checked: false, critical: true },
-        { id: 3, item: "Sac de couchage", checked: false },
-        { id: 4, item: "Matelas", checked: false },
-        { id: 5, item: "Tente", checked: false, critical: true },
-        { id: 6, item: "Batterie Externe", checked: false, critical: true },
-        { id: 7, item: "Vêtements (Chaud/Froid)", checked: false },
-        { id: 8, item: "Kit Hygiène", checked: false },
-        { id: 9, item: "Argent Liquide", checked: false },
-        { id: 10, item: "Cigarettes / Vapote", checked: false },
-        { id: 11, item: "Lunettes de soleil", checked: false },
-        { id: 12, item: "Alcool", checked: false },
-        { id: 13, item: "Paille", checked: false },
-        { id: 14, item: "PQ (Papier Toilette)", checked: false, critical: true },
-        { id: 15, item: "Casquette / Bob", checked: false },
-        { id: 16, item: "Eau / Gourde", checked: false },
-        { id: 17, item: "Serviette", checked: false },
-        { id: 18, item: "Coussin", checked: false },
-        { id: 19, item: "Capote", checked: false },
-        { id: 20, item: "Mouchoirs en Paquet", checked: false },
+        { id: 1, item: "Billet Festival (PDF + Wallet)", checked: false, critical: true, category: "DOCUMENTS" },
+        { id: 2, item: "Passeport / CNI Valide", checked: false, critical: true, category: "DOCUMENTS" },
+        { id: 3, item: "Sac de couchage", checked: false, category: "CAMPING" },
+        { id: 4, item: "Matelas", checked: false, category: "CAMPING" },
+        { id: 5, item: "Tente", checked: false, critical: true, category: "CAMPING" },
+        { id: 16, item: "Coussin", checked: false, category: "CAMPING" },
+        { id: 7, item: "Vêtements (Chaud/Froid)", checked: false, category: "MATOS & DIVERS" },
+        { id: 6, item: "Batterie Externe", checked: false, critical: true, category: "MATOS & DIVERS" },
+        { id: 10, item: "Casquette / Bob / Lunettes de soleil", checked: false, category: "MATOS & DIVERS" },
+        { id: 9, item: "Cigarettes / Vapote", checked: false, category: "MATOS & DIVERS" },
+        { id: 11, item: "Alcool / Eau", checked: false, category: "MATOS & DIVERS" },
+        { id: 12, item: "Paille", checked: false, category: "MATOS & DIVERS" },
+        { id: 8, item: "Kit Hygiène (Shampoing, Savon, Dentifrice, PQ)", checked: false, category: "HYGIÈNE" },
+        { id: 13, item: "Serviette", checked: false, category: "HYGIÈNE" },
+        { id: 14, item: "Capote", checked: false, category: "HYGIÈNE" },
+        { id: 15, item: "Mouchoirs en Paquet", checked: false, category: "HYGIÈNE" },
     ];
 
     const initialGroupGear = [
@@ -156,7 +152,7 @@ const HiveDashboard = () => {
     const [squad, setSquad] = useState(initialSquad);
     const [personalGear, setPersonalGear] = useState(initialPersonalGear);
     const [groupGear, setGroupGear] = useState(initialGroupGear);
-    const [selectedStageId, setSelectedStageId] = useState(festivalData[0].id);
+    const [selectedStageId, setSelectedStageId] = useState(festivalStages[0].id);
 
     // --- SUPABASE PERSISTENCE ---
 
@@ -353,11 +349,8 @@ const HiveDashboard = () => {
 
                 {/* MARQUEE */}
                 <div className="bg-hive-red text-black text-xs font-bold font-mono py-1 overflow-hidden border-b border-red-900 marquee-container">
-                    <div className="marquee-content uppercase tracking-[0.2em]">
-                         /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE ///
-                    </div>
-                    <div className="marquee-content uppercase tracking-[0.2em] absolute top-1 left-full">
-                         /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE ///
+                    <div className="marquee-content uppercase tracking-[0.2em] whitespace-nowrap">
+                         /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// &nbsp;&nbsp;&nbsp; /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// HIVE FESTIVAL 2026 /// FERROPOLIS ALLEMAGNE /// &nbsp;&nbsp;&nbsp;
                     </div>
                 </div>
 
@@ -479,22 +472,31 @@ const HiveDashboard = () => {
                                 </div>
                                 <ProgressBar current={personalGear.filter(i => i.checked).length} total={personalGear.length} />
 
-                                <div className="mt-8 space-y-2">
-                                    {personalGear.map((item) => (
-                                        <div
-                                            key={item.id}
-                                            onClick={() => togglePersonalCheck(item.id)}
-                                            className={`flex items-center justify-between p-3 border-l-2 transition-all cursor-pointer hover:pl-6
-                                            ${item.checked ? 'border-zinc-700 bg-zinc-900/30 text-zinc-600' : 'border-hive-red bg-black text-white hover:bg-zinc-900'}
-                                            `}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <div className={`w-4 h-4 border flex items-center justify-center ${item.checked ? 'border-zinc-700' : 'border-hive-red'}`}>
-                                                    {item.checked && <div className="w-2 h-2 bg-zinc-600"></div>}
-                                                </div>
-                                                <span className={`uppercase font-bold text-sm tracking-wider ${item.checked ? 'line-through' : ''}`}>{item.item}</span>
+                                <div className="mt-8 space-y-8">
+                                    {['DOCUMENTS', 'CAMPING', 'HYGIÈNE', 'MATOS & DIVERS'].map((category) => (
+                                        <div key={category}>
+                                            <h4 className="text-hive-red font-mono text-xs font-bold uppercase mb-3 border-b border-zinc-800 pb-1 px-1">
+                                                {category}
+                                            </h4>
+                                            <div className="space-y-2">
+                                                {personalGear.filter(i => i.category === category).map((item) => (
+                                                    <div
+                                                        key={item.id}
+                                                        onClick={() => togglePersonalCheck(item.id)}
+                                                        className={`flex items-center justify-between p-3 border-l-2 transition-all cursor-pointer hover:pl-6
+                                                        ${item.checked ? 'border-zinc-700 bg-zinc-900/30 text-zinc-600' : 'border-hive-red bg-black text-white hover:bg-zinc-900'}
+                                                        `}
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            <div className={`w-4 h-4 border flex items-center justify-center ${item.checked ? 'border-zinc-700' : 'border-hive-red'}`}>
+                                                                {item.checked && <div className="w-2 h-2 bg-zinc-600"></div>}
+                                                            </div>
+                                                            <span className={`uppercase font-bold text-sm tracking-wider ${item.checked ? 'line-through' : ''}`}>{item.item}</span>
+                                                        </div>
+                                                        {item.critical && !item.checked && <Zap className="w-4 h-4 text-hive-red animate-pulse" />}
+                                                    </div>
+                                                ))}
                                             </div>
-                                            {item.critical && !item.checked && <Zap className="w-4 h-4 text-hive-red animate-pulse" />}
                                         </div>
                                     ))}
                                 </div>
@@ -538,7 +540,7 @@ const HiveDashboard = () => {
                 )}
 
                 {activeTab === 'lineup' && (
-                    <div className="animate-fadeIn">
+                    <div className="animate-fadeIn mb-32">
                         <SectionTitle title="LINE-UP & SCÈNES" icon={Music} />
 
                         <div className="grid grid-cols-1 gap-12">
@@ -712,16 +714,16 @@ const HiveDashboard = () => {
                     </div>
                 )
                 }
-                )}
+
 
                 {activeTab === 'lineup' && (
-                    <div className="animate-fadeIn min-h-[60vh]">
+                    <div className="animate-fadeIn min-h-[60vh] hidden lg:block">
                         {/* Split Layout: Content (Left) - Nav (Right) */}
                         <div className="flex flex-col-reverse lg:flex-row gap-8 lg:gap-16">
 
                             {/* LEFT: STAGE CONTENT */}
                             <div className="flex-1">
-                                {festivalData.map(stage => {
+                                {festivalStages.map(stage => {
                                     if (stage.id !== selectedStageId) return null;
                                     return (
                                         <div key={stage.id} className="animate-fadeIn">
@@ -756,7 +758,7 @@ const HiveDashboard = () => {
                                     SÉLECTIONNER SCÈNE
                                 </h3>
                                 <div className="grid grid-cols-2 gap-4">
-                                    {festivalData.map((stage) => (
+                                    {festivalStages.map((stage) => (
                                         <button
                                             key={stage.id}
                                             onClick={() => setSelectedStageId(stage.id)}
@@ -788,22 +790,23 @@ const HiveDashboard = () => {
                         </div>
                     </div>
                 )}
+            </main>
 
-                <footer className="relative z-10 border-t border-zinc-900 p-12 mt-12 text-center text-[10px] font-mono text-zinc-700 flex flex-col items-center gap-4">
-                    <p>HIVE // DASHBOARD V2</p>
-                    <button
-                        onClick={async () => {
-                            if (confirm("ATTENTION : Cela va écraser les données du serveur avec les nouvelles données du code (Noms, Rôles, etc.). Continuer ?")) {
-                                await supabase.from('hive_state').upsert({ key: 'hive_squad', value: initialSquad });
-                                await supabase.from('hive_state').upsert({ key: 'hive_group_gear', value: initialGroupGear });
-                                window.location.reload();
-                            }
-                        }}
-                        className="text-red-900/50 hover:text-red-500 transition-colors uppercase tracking-widest text-[10px] border border-red-900/30 px-2 py-1"
-                    >
-                        [ ADMIN: FORCE PUSH UPDATE ]
-                    </button>
-                </footer>
+            <footer className="relative z-10 border-t border-zinc-900 p-12 mt-12 text-center text-[10px] font-mono text-zinc-700 flex flex-col items-center gap-4">
+                <p>HIVE // DASHBOARD V2</p>
+                {/* <button
+                    onClick={async () => {
+                        if (confirm("ATTENTION : Cela va écraser les données du serveur avec les nouvelles données du code (Noms, Rôles, etc.). Continuer ?")) {
+                            await supabase.from('hive_state').upsert({ key: 'hive_squad', value: initialSquad });
+                            await supabase.from('hive_state').upsert({ key: 'hive_group_gear', value: initialGroupGear });
+                            window.location.reload();
+                        }
+                    }}
+                    className="text-red-900/50 hover:text-red-500 transition-colors uppercase tracking-widest text-[10px] border border-red-900/30 px-2 py-1"
+                >
+                    [ ADMIN: FORCE PUSH UPDATE ]
+                </button> */}
+            </footer>
 
         </div >
     );
