@@ -276,8 +276,8 @@ const HiveDashboard = () => {
 
     // --- COMPONENTS ---
 
-    const SectionTitle = ({ title, icon: Icon }) => (
-        <div className="flex items-center gap-4 mb-8">
+    const SectionTitle = ({ title, icon: Icon, className = "" }) => (
+        <div className={`flex items-center gap-4 mb-8 ${className}`}>
             <div className="bg-hive-red p-2 text-black skew-x-[-10deg]">
                 <Icon className="w-6 h-6 skew-x-[10deg]" />
             </div>
@@ -463,7 +463,7 @@ const HiveDashboard = () => {
                     <div className="animate-fadeIn grid grid-cols-1 lg:grid-cols-2 gap-12">
                         {/* PERSONAL LOADOUT */}
                         <div>
-                            <SectionTitle title={currentUser ? `MATÉRIEL : ${initialSquad.find(s => s.id === currentUser)?.name || 'INCONNU'}` : "MATÉRIEL PERSO (SÉLECTIONNEZ VOTRE NOM)"} icon={ShieldAlert} />
+                            <SectionTitle title={currentUser ? `MATÉRIEL : ${initialSquad.find(s => s.id === currentUser)?.name || 'INCONNU'}` : "MATÉRIEL PERSO (SÉLECTIONNEZ VOTRE NOM)"} icon={ShieldAlert} className="mt-12 md:mt-0" />
 
                             <div className={`glass-panel p-6 ${!currentUser ? 'opacity-50 pointer-events-none grayscale' : ''}`}>
                                 <div className="flex justify-between items-end mb-6 font-mono text-xs">
@@ -587,7 +587,7 @@ const HiveDashboard = () => {
                                 { date: "JEU 18 JUIN - 21:00", title: "DÉPART", desc: "Départ Pornic. Trajet de nuit via Paris.", color: "text-hive-red", active: true },
                                 { date: "TRANSIT", title: "FRONTIÈRE", desc: "Passage Allemagne. Attention aux contrôles.", color: "text-white", active: false },
                                 { date: "VEN 19 JUIN - 12:00", title: "ARRIVÉE", desc: "Arrivée Ferropolis. Installation du camp.", color: "text-white", active: false },
-                                { date: "VEN 19 JUIN - 15:00", title: "DÉBUT FESTIVAL", desc: "Ouverture des portes.", color: "text-green-500", glow: true, active: false }
+                                { date: "VEN 19 JUIN - 15:00", title: "DÉBUT FESTIVAL", desc: "Ouverture des portes et début de la démolition.", color: "text-green-500", glow: true, active: false }
                             ].map((step, i) => (
                                 <div key={i} className="relative pl-12 md:pl-16 group">
                                     <div className={`absolute -left-[11px] top-0 w-6 h-6 bg-black border-4 ${step.active ? 'border-hive-red' : 'border-zinc-800'} transform group-hover:scale-125 transition-transform`}></div>
@@ -601,7 +601,7 @@ const HiveDashboard = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 font-mono">
                             {[
-                                { val: "2,900 KM", label: "DISTANCE TOTALE", icon: Truck },
+                                { val: "2,900 KM", label: "DISTANCE TOTALE ALLER - RETOUR", icon: Truck },
                                 { val: "12H 30M", label: "TEMPS TRAJET", icon: Clock },
                                 { val: "255 L", label: "CARBURANT", icon: BatteryCharging }
                             ].map((stat, i) => (
