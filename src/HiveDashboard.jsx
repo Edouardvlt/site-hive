@@ -51,6 +51,7 @@ const DynamicBackground = ({ selectedStageId, festivalStages }) => (
 const HiveDashboard = () => {
     const [activeTab, setActiveTab] = useState('squad');
     const [glitch, setGlitch] = useState(false);
+    const BASE_URL = import.meta.env.BASE_URL;
 
     // --- USER STATE ---
 
@@ -102,8 +103,8 @@ const HiveDashboard = () => {
         {
             id: 'castle',
             name: "TECHNO CASTLE",
-            iconImg: "/site-hive/assets/hive/Icon_TechnoCastle.webp",
-            bgImg: "/site-hive/assets/hive/TechnoCastle_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_TechnoCastle.webp`,
+            bgImg: `${BASE_URL}assets/hive/TechnoCastle_Backdrop_RedThresh.webp`,
             artists: [
                 "SCHROTTHAGEN", "SARA LANDRY", "RESTRICTED", "PRADA2000 B2B SOMEWHEN", "ONLYNUMBERS", "OGUZ B2B SANTØS",
                 "NOTMYTYPE", "NICOLAS JULIAN", "NICO MORENO B2B NOVAH", "KUKO (LIVE)", "KOBOSIL", "KLANGKUENSTLER",
@@ -115,8 +116,8 @@ const HiveDashboard = () => {
         {
             id: 'beach',
             name: "GROOVE BEACH",
-            iconImg: "/site-hive/assets/hive/Icon_GrooveBeach.webp",
-            bgImg: "/site-hive/assets/hive/GrooveBeach_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_GrooveBeach.webp`,
+            bgImg: `${BASE_URL}assets/hive/GrooveBeach_Backdrop_RedThresh.webp`,
             artists: [
                 "TRANCEMASTER KRAUSE", "SPFDJ B2B ØTTA", "SOUTHSTAR", "SHOKI287", "SERAFINA", "PETERBLUE", "PEGASSI",
                 "PART TIME KILLER", "PARAÇEK", "PAWLOWSKI", "ODYMEL", "MISCHLUFT", "MIKA HEGGEMANN B2B CLEOPARD2000",
@@ -127,8 +128,8 @@ const HiveDashboard = () => {
         {
             id: 'cage',
             name: "RAGE CAGE",
-            iconImg: "/site-hive/assets/hive/Icon_RageCage.webp",
-            bgImg: "/site-hive/assets/hive/RageCage_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_RageCage.webp`,
+            bgImg: `${BASE_URL}assets/hive/RageCage_Backdrop_RedThresh.webp`,
             artists: [
                 "VENDEX", "VIEZE ASBAK", "USH", "UNICORN ON K", "TOXIC MACHINERY", "TANJA MIJU", "THE PURGE B2B GRAVEDGR",
                 "SUB ZERO PROJECT", "SLVL", "RAXELLER", "OMAKS", "O.B.I.", "NEEK", "MISS K8", "LIL TEXAS", "KRUELTY", "KO:LAB",
@@ -139,8 +140,8 @@ const HiveDashboard = () => {
         {
             id: 'junkyard',
             name: "JUNKYARD AREA",
-            iconImg: "/site-hive/assets/hive/Icon_Junkyard.webp",
-            bgImg: "/site-hive/assets/hive/Junkyard_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_Junkyard.webp`,
+            bgImg: `${BASE_URL}assets/hive/Junkyard_Backdrop_RedThresh.webp`,
             artists: [
                 "YANAMASTE", "ÜBERKIKZ", "UFO95 (LIVE)", "DJ STINGRAY 313", "QUELZA", "PHILIPPA PACHO", "MARRØN",
                 "KINK", "FREDDY K", "FJAAK", "ELLI ACULA", "ELLEN ALLIEN", "CHLÄR", "BEN KLOCK", "ALARICO (LIVE)"
@@ -149,8 +150,8 @@ const HiveDashboard = () => {
         {
             id: 'sleepless',
             name: "SLEEPLESS FLOOR",
-            iconImg: "/site-hive/assets/hive/Icon_Sleepless.webp",
-            bgImg: "/site-hive/assets/hive/Sleepless_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_Sleepless.webp`,
+            bgImg: `${BASE_URL}assets/hive/Sleepless_Backdrop_RedThresh.webp`,
             artists: [
                 "WILLIAM LUCK", "VORTEK'S", "TRITØNUS", "TRIPTYKH B2B OBSCURE SHAPE", "TARS", "STINNY STONE", "SALTYSIS",
                 "PANTEROS666", "NIOTECH", "NIKOLINA", "NEON GRAVEYARD", "LUCIID B2B BEN TECHY", "LOLA CERISE", "LESSSS",
@@ -161,8 +162,8 @@ const HiveDashboard = () => {
         {
             id: 'bounce',
             name: "BOUNCE TEMPLE",
-            iconImg: "/site-hive/assets/hive/Icon_BounceTemple.webp",
-            bgImg: "/site-hive/assets/hive/BounceTemple_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_BounceTemple.webp`,
+            bgImg: `${BASE_URL}assets/hive/BounceTemple_Backdrop_RedThresh.webp`,
             artists: [
                 "ZWILLING. B2B DJ ACHIM FEUERVOGEL FEAT. FRONSI", "WILDERICH B2B RIANA HOLLEY", "VAGABUND B2B FASTER HORSES", "THISO B2B IOSIO",
                 "NOISE MAFIA B2B YASMIN REGISFORD", "JOKESONYOU B2B CARGO", "HITMILØW B2B THE MUFFIN MAN", "GIØ B2B DICE",
@@ -173,8 +174,8 @@ const HiveDashboard = () => {
         {
             id: 'lagoon',
             name: "PSYLAGOON",
-            iconImg: "/site-hive/assets/hive/Icon_Psylagoon.webp",
-            bgImg: "/site-hive/assets/hive/PsyLagoon_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_Psylagoon.webp`,
+            bgImg: `${BASE_URL}assets/hive/PsyLagoon_Backdrop_RedThresh.webp`,
             artists: [
                 "VINI VICI", "SAJANKA", "RANJI", "POSSEBILITY", "PERKINS", "OMIKI", "LIQUID SOUL", "LIBRA", "KILLATK",
                 "HENRIQUE CAMACHO", "HATIKWA", "GONZI", "GHOST RIDER", "FUNGUS FUNK", "FABIO FUSCO", "ELECTRIC UNIVERSE",
@@ -184,22 +185,22 @@ const HiveDashboard = () => {
         {
             id: 'strobe',
             name: "STROBE",
-            iconImg: "/site-hive/assets/hive/Icon_Strobe.webp",
-            bgImg: "/site-hive/assets/hive/Strobe_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_Strobe.webp`,
+            bgImg: `${BASE_URL}assets/hive/Strobe_Backdrop_RedThresh.webp`,
             artists: []
         },
         {
             id: 'forest',
             name: "DISCO FOREST",
-            iconImg: "/site-hive/assets/hive/Icon_DiscoForest-2.webp",
-            bgImg: "/site-hive/assets/hive/DiscoForest_Backdrop_RedThresh.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_DiscoForest-2.webp`,
+            bgImg: `${BASE_URL}assets/hive/DiscoForest_Backdrop_RedThresh.webp`,
             artists: []
         },
         {
             id: 'pirate',
             name: "PIRATE BAY",
-            iconImg: "/site-hive/assets/hive/Icon_PirateBay.webp",
-            bgImg: "/site-hive/assets/hive/PirateBay_Backdrop.webp",
+            iconImg: `${BASE_URL}assets/hive/Icon_PirateBay.webp`,
+            bgImg: `${BASE_URL}assets/hive/PirateBay_Backdrop.webp`,
             artists: []
         }
     ];
@@ -485,7 +486,7 @@ const HiveDashboard = () => {
                     <div className="text-center">
                         <div className={`relative inline-block ${glitch ? 'animate-glitch-skew' : ''}`}>
                             <img
-                                src="/site-hive/assets/hive/HIVE26_HEADER2.webp"
+                                src={`${BASE_URL}assets/hive/HIVE26_HEADER2.webp`}
                                 alt="HIVE"
                                 className="w-full max-w-xl md:max-w-3xl mx-auto drop-shadow-[0_0_25px_rgba(220,38,38,0.4)]"
                             />
