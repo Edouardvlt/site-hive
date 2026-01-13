@@ -322,6 +322,16 @@ const HiveDashboard = () => {
         saveState('hive_group_gear', newGear);
     };
 
+    // BODY SCROLL LOCK For Mobile Modal
+    useEffect(() => {
+        if (!currentUser) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [currentUser]);
+
     // Glitch loop
     useEffect(() => {
         const interval = setInterval(() => {
@@ -367,7 +377,7 @@ const HiveDashboard = () => {
 
             {/* WELCOME MODAL */}
             {!currentUser && (
-                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl overflow-y-auto">
+                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl overflow-y-auto overscroll-contain">
                     <div className="min-h-full flex flex-col items-center justify-center p-4">
                         <div className="max-w-4xl w-full text-center space-y-12">
                             <div>
