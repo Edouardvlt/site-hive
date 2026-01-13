@@ -367,42 +367,44 @@ const HiveDashboard = () => {
 
             {/* WELCOME MODAL */}
             {!currentUser && (
-                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-4">
-                    <div className="max-w-4xl w-full text-center space-y-12">
-                        <div>
-                            <AlertTriangle className="w-20 h-20 text-hive-red mx-auto mb-6 animate-pulse" />
-                            <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase glitch-text mb-4" data-text="IDENTIFICATION REQUISE">
-                                IDENTIFICATION REQUISE
-                            </h1>
-                            <p className="text-zinc-500 font-mono text-sm tracking-widest uppercase">
-                                VEUILLEZ SÉLECTIONNER VOTRE PROFIL OPÉRATEUR
-                            </p>
-                        </div>
+                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl overflow-y-auto">
+                    <div className="min-h-full flex flex-col items-center justify-center p-4">
+                        <div className="max-w-4xl w-full text-center space-y-12">
+                            <div>
+                                <AlertTriangle className="w-20 h-20 text-hive-red mx-auto mb-6 animate-pulse" />
+                                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase glitch-text mb-4" data-text="IDENTIFICATION REQUISE">
+                                    IDENTIFICATION REQUISE
+                                </h1>
+                                <p className="text-zinc-500 font-mono text-sm tracking-widest uppercase">
+                                    VEUILLEZ SÉLECTIONNER VOTRE PROFIL OPÉRATEUR
+                                </p>
+                            </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {initialSquad.map(member => (
-                                <button
-                                    key={member.id}
-                                    onClick={() => setCurrentUser(member.id)}
-                                    className="group relative overflow-hidden bg-zinc-900 border border-zinc-800 p-6 hover:border-hive-red transition-all duration-300"
-                                >
-                                    <div className="absolute inset-0 bg-hive-red/0 group-hover:bg-hive-red/10 transition-colors"></div>
-                                    <div className="relative z-10 flex flex-col items-center gap-2">
-                                        <div className="w-12 h-12 rounded-full bg-black border border-zinc-700 flex items-center justify-center group-hover:border-hive-red transition-colors">
-                                            <span className="font-mono text-xs text-zinc-500 group-hover:text-white">{member.code.split('-')[1]}</span>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                {initialSquad.map(member => (
+                                    <button
+                                        key={member.id}
+                                        onClick={() => setCurrentUser(member.id)}
+                                        className="group relative overflow-hidden bg-zinc-900 border border-zinc-800 p-6 hover:border-hive-red transition-all duration-300"
+                                    >
+                                        <div className="absolute inset-0 bg-hive-red/0 group-hover:bg-hive-red/10 transition-colors"></div>
+                                        <div className="relative z-10 flex flex-col items-center gap-2">
+                                            <div className="w-12 h-12 rounded-full bg-black border border-zinc-700 flex items-center justify-center group-hover:border-hive-red transition-colors">
+                                                <span className="font-mono text-xs text-zinc-500 group-hover:text-white">{member.code.split('-')[1]}</span>
+                                            </div>
+                                            <span className="text-xl font-bold text-white uppercase">{member.name}</span>
+                                            <span className="text-[10px] text-zinc-500 font-mono">{member.role}</span>
                                         </div>
-                                        <span className="text-xl font-bold text-white uppercase">{member.name}</span>
-                                        <span className="text-[10px] text-zinc-500 font-mono">{member.role}</span>
-                                    </div>
-                                    {/* Corner Accents */}
-                                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-zinc-700 group-hover:border-hive-red transition-colors"></div>
-                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-zinc-700 group-hover:border-hive-red transition-colors"></div>
-                                </button>
-                            ))}
-                        </div>
+                                        {/* Corner Accents */}
+                                        <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-zinc-700 group-hover:border-hive-red transition-colors"></div>
+                                        <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-zinc-700 group-hover:border-hive-red transition-colors"></div>
+                                    </button>
+                                ))}
+                            </div>
 
-                        <div className="text-xs text-zinc-600 font-mono">
-                            SECURE CONNECTION ESTABLISHED // HIVE_SYS_V2.0
+                            <div className="text-xs text-zinc-600 font-mono">
+                                SECURE CONNECTION ESTABLISHED // HIVE_SYS_V2.0
+                            </div>
                         </div>
                     </div>
                 </div>
