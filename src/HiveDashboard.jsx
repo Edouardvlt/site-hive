@@ -19,7 +19,8 @@ import {
     Zap,
     UserCircle,
     Lock,
-    Info
+    Info,
+    Ticket
 } from 'lucide-react';
 
 const FogOverlay = () => (
@@ -515,10 +516,8 @@ const HiveDashboard = () => {
                     {[
                         { id: 'squad', label: "GROUPE", icon: Users },
                         { id: 'gear', label: "MATÉRIEL", icon: CheckSquare },
-                        { id: 'infos', label: "INFOS", icon: Info },
                         { id: 'lineup', label: "LINEUP", icon: Music },
-                        { id: 'roadmap', label: "TRAJET", icon: MapPin },
-                        { id: 'budget', label: "BUDGET", icon: CreditCard },
+                        { id: 'infos', label: "INFOS", icon: Info },
                     ].map((tab) => (
                         <button
                             key={tab.id}
@@ -580,6 +579,28 @@ const HiveDashboard = () => {
                                 ))}
                             </div>
 
+                            <div className="mt-12 w-full bg-white rounded-sm overflow-hidden border border-hive-red shadow-[0_0_20px_rgba(220,38,38,0.3)] relative group min-h-[500px]">
+                                <div className="absolute top-4 left-4 z-20 pointer-events-none">
+                                    <h3 className="text-black font-black text-2xl uppercase tracking-widest drop-shadow-md">BILLETTERIE OFFICIELLE</h3>
+                                </div>
+                                <div className="absolute top-0 right-0 p-2 z-20">
+                                    <a
+                                        href="https://hive-festival.ticket.io/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-black text-white text-xs font-mono px-3 py-1 border border-hive-red hover:bg-hive-red hover:text-black transition-colors"
+                                    >
+                                        OUVRIR DANS UNE NOUVELLE FENÊTRE
+                                    </a>
+                                </div>
+                                <iframe
+                                    src="https://hive-festival.ticket.io/"
+                                    className="w-full h-full border-0 min-h-[500px]"
+                                    title="Hive Festival Tickets"
+                                    allow="payment"
+                                ></iframe>
+                            </div>
+
                             <div className="mt-12 border border-hive-red bg-hive-red/5 p-8 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-20">
                                     <AlertTriangle className="w-32 h-32 text-hive-red" />
@@ -590,6 +611,32 @@ const HiveDashboard = () => {
                                 </h3>
                                 <p className="text-zinc-300 max-w-2xl font-mono text-sm leading-relaxed">
                                     GROSSE DEMOLITION EN VUE.
+                                    <br />
+                                    <br />
+                                    Bon les gars 🔥
+                                    <br />
+                                    <br />
+                                    👉 Jeudi 18 juin, départ vers 20h direction le HIVE FESTIVAL
+                                    <br />
+                                    <br />
+                                    Gros week-end en vue : 10 scènes, 57h de son non-stop, +300 artistes… autant dire qu’on va s’en mettre plein le buffet 🔊
+                                    <br />
+                                    <br />
+                                    On part jeudi soir, et on repart le dimanche en fin de journée.
+                                    <br />
+                                    <br />
+                                    Pour le budget :
+                                    <br />
+                                    🎟️ festival + camping = 257€
+                                    <br />
+                                    🚗 transport = 141€
+                                    <br />
+                                    🍻 alcool = 50€
+                                    <br />
+                                    <br />
+                                    💸 Comptez environ 448€ par personne, tout compris
+                                    <br />
+                                    La colère ça va être incroyable ! 🔥🔊🍺
                                 </p>
                             </div>
                         </div>
@@ -771,88 +818,6 @@ const HiveDashboard = () => {
                     </div>
                 )}
 
-
-                {activeTab === 'roadmap' && (
-                    <div className="animate-fadeIn relative">
-                        <DynamicBackground selectedStageId={selectedStageId} festivalStages={festivalStages} />
-                        <div className="relative z-10">
-                            <SectionTitle title="ÉTAPES DU VOYAGE" icon={MapPin} />
-
-                            <div className="relative border-l-2 border-dashed border-zinc-800 ml-4 md:ml-20 space-y-16 my-12">
-                                {[
-                                    { date: "JEU 18 JUIN - 21:00", title: "DÉPART", desc: "Départ Pornic. Trajet de nuit via Paris.", color: "text-hive-red", active: true },
-                                    { date: "TRANSIT", title: "FRONTIÈRE", desc: "Passage Allemagne. Attention aux contrôles.", color: "text-white", active: false },
-                                    { date: "VEN 19 JUIN - 12:00", title: "ARRIVÉE", desc: "Arrivée Ferropolis. Installation du camp.", color: "text-white", active: false },
-                                    { date: "VEN 19 JUIN - 15:00", title: "DÉBUT FESTIVAL", desc: "Ouverture des portes et début de la démolition.", color: "text-green-500", glow: true, active: false }
-                                ].map((step, i) => (
-                                    <div key={i} className="relative pl-12 md:pl-16 group">
-                                        <div className={`absolute -left-[11px] top-0 w-6 h-6 bg-black border-4 ${step.active ? 'border-hive-red' : 'border-zinc-800'} transform group-hover:scale-125 transition-transform`}></div>
-
-                                        <div className={`font-mono text-sm mb-1 ${step.color}`}>{step.date}</div>
-                                        <h3 className="text-3xl md:text-5xl font-black uppercase text-white mb-4 group-hover:translate-x-2 transition-transform">{step.title}</h3>
-                                        <p className="text-zinc-400 font-mono text-sm border-l-2 border-zinc-900 pl-4">{step.desc}</p>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 font-mono">
-                                {[
-                                    { val: "2,900 KM", label: "DISTANCE TOTALE ALLER - RETOUR", icon: Truck },
-                                    { val: "12H 30M", label: "TEMPS TRAJET", icon: Clock },
-                                    { val: "255 L", label: "CARBURANT", icon: BatteryCharging }
-                                ].map((stat, i) => (
-                                    <div key={i} className="bg-zinc-900/50 border border-zinc-800 p-8 flex flex-col items-center justify-center hover:border-hive-red transition-colors group">
-                                        <stat.icon className="w-8 h-8 text-zinc-600 mb-4 group-hover:text-hive-red" />
-                                        <div className="text-4xl font-bold text-white mb-2">{stat.val}</div>
-                                        <div className="text-[10px] tracking-widest text-zinc-500 uppercase">{stat.label}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {activeTab === 'budget' && (
-                    <div className="animate-fadeIn relative">
-                        <DynamicBackground selectedStageId={selectedStageId} festivalStages={festivalStages} />
-                        <div className="relative z-10">
-                            <SectionTitle title="BUDGET PRÉVISIONNEL" icon={CreditCard} />
-
-                            <div className="hive-border p-1 bg-black/50 overflow-hidden">
-                                <table className="w-full text-left font-mono">
-                                    <thead className="bg-zinc-900 text-xs uppercase text-zinc-500 tracking-wider">
-                                        <tr>
-                                            <th className="p-4">Dépense</th>
-                                            <th className="p-4 text-right">Total Groupe</th>
-                                            <th className="p-4 text-right text-hive-red">Par Personne</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-zinc-800 text-sm">
-                                        {[
-                                            { l: "Tickets + Camping", t: "1,960", p: "257" },
-                                            { l: "Transport (MiniBus)", t: "500", p: "63" },
-                                            { l: "Carburant (Diesel)", t: "433", p: "54" },
-                                            { l: "Péages / Vignettes", t: "230", p: "29" },
-                                            { l: "Courses / Nourriture", t: "400", p: "50" },
-                                        ].map((row, i) => (
-                                            <tr key={i} className="hover:bg-zinc-900/50 transition-colors">
-                                                <td className="p-4 text-zinc-300">{row.l}</td>
-                                                <td className="p-4 text-right text-zinc-400">{row.t} €</td>
-                                                <td className="p-4 text-right font-bold text-white">{row.p} €</td>
-                                            </tr>
-                                        ))}
-                                        <tr className="bg-hive-red text-black font-bold text-lg">
-                                            <td className="p-4 uppercase tracking-widest">Total</td>
-                                            <td className="p-4 text-right">3,523 €</td>
-                                            <td className="p-4 text-right">~440 €</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
                 {activeTab === 'infos' && (
                     <div className="animate-fadeIn space-y-12 relative">
                         <DynamicBackground selectedStageId={selectedStageId} festivalStages={festivalStages} />
@@ -912,6 +877,73 @@ const HiveDashboard = () => {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <SectionTitle title="ÉTAPES DU VOYAGE" icon={MapPin} />
+
+                            <div className="relative border-l-2 border-dashed border-zinc-800 ml-4 md:ml-20 space-y-16 my-12">
+                                {[
+                                    { date: "JEU 18 JUIN - 21:00", title: "DÉPART", desc: "Départ Pornic. Trajet de nuit via Paris.", color: "text-hive-red", active: true },
+                                    { date: "TRANSIT", title: "FRONTIÈRE", desc: "Passage Allemagne. Attention aux contrôles.", color: "text-white", active: false },
+                                    { date: "VEN 19 JUIN - 12:00", title: "ARRIVÉE", desc: "Arrivée Ferropolis. Installation du camp.", color: "text-white", active: false },
+                                    { date: "VEN 19 JUIN - 15:00", title: "DÉBUT FESTIVAL", desc: "Ouverture des portes et début de la démolition.", color: "text-green-500", glow: true, active: false }
+                                ].map((step, i) => (
+                                    <div key={i} className="relative pl-12 md:pl-16 group">
+                                        <div className={`absolute -left-[11px] top-0 w-6 h-6 bg-black border-4 ${step.active ? 'border-hive-red' : 'border-zinc-800'} transform group-hover:scale-125 transition-transform`}></div>
+
+                                        <div className={`font-mono text-sm mb-1 ${step.color}`}>{step.date}</div>
+                                        <h3 className="text-3xl md:text-5xl font-black uppercase text-white mb-4 group-hover:translate-x-2 transition-transform">{step.title}</h3>
+                                        <p className="text-zinc-400 font-mono text-sm border-l-2 border-zinc-900 pl-4">{step.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 font-mono">
+                                {[
+                                    { val: "2,900 KM", label: "DISTANCE TOTALE ALLER - RETOUR", icon: Truck },
+                                    { val: "12H 30M", label: "TEMPS TRAJET", icon: Clock },
+                                    { val: "255 L", label: "CARBURANT", icon: BatteryCharging }
+                                ].map((stat, i) => (
+                                    <div key={i} className="bg-zinc-900/50 border border-zinc-800 p-8 flex flex-col items-center justify-center hover:border-hive-red transition-colors group">
+                                        <stat.icon className="w-8 h-8 text-zinc-600 mb-4 group-hover:text-hive-red" />
+                                        <div className="text-4xl font-bold text-white mb-2">{stat.val}</div>
+                                        <div className="text-[10px] tracking-widest text-zinc-500 uppercase">{stat.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <SectionTitle title="BUDGET PRÉVISIONNEL" icon={CreditCard} />
+
+                            <div className="hive-border p-1 bg-black/50 overflow-hidden">
+                                <table className="w-full text-left font-mono">
+                                    <thead className="bg-zinc-900 text-xs uppercase text-zinc-500 tracking-wider">
+                                        <tr>
+                                            <th className="p-4">Dépense</th>
+                                            <th className="p-4 text-right">Total Groupe</th>
+                                            <th className="p-4 text-right text-hive-red">Par Personne</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-zinc-800 text-sm">
+                                        {[
+                                            { l: "Tickets + Camping", t: "1,960", p: "257" },
+                                            { l: "Transport (MiniBus)", t: "500", p: "63" },
+                                            { l: "Carburant (Diesel)", t: "433", p: "54" },
+                                            { l: "Péages / Vignettes", t: "230", p: "29" },
+                                            { l: "Courses / Nourriture", t: "400", p: "50" },
+                                        ].map((row, i) => (
+                                            <tr key={i} className="hover:bg-zinc-900/50 transition-colors">
+                                                <td className="p-4 text-zinc-300">{row.l}</td>
+                                                <td className="p-4 text-right text-zinc-400">{row.t} €</td>
+                                                <td className="p-4 text-right font-bold text-white">{row.p} €</td>
+                                            </tr>
+                                        ))}
+                                        <tr className="bg-hive-red text-black font-bold text-lg">
+                                            <td className="p-4 uppercase tracking-widest">Total</td>
+                                            <td className="p-4 text-right">3,523 €</td>
+                                            <td className="p-4 text-right">~440 €</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
