@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient'; // Import Supabase client
 import {
+
     Users,
     CheckSquare,
     MapPin,
@@ -19,7 +20,12 @@ import {
     Zap,
     UserCircle,
     Lock,
-    Info
+    Info,
+    Heart,
+    CloudRain,
+    Sun,
+    Thermometer,
+    Wind
 } from 'lucide-react';
 
 const FogOverlay = () => (
@@ -31,6 +37,35 @@ const FogOverlay = () => (
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-80 z-10"></div>
     </div>
 );
+
+const WeatherWidget = () => {
+    const [weather, setWeather] = useState(null);
+
+    useEffect(() => {
+        // Ferropolis Coordinates: 51.7566° N, 12.4480° E
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=51.7566&longitude=12.4480&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Europe%2FBerlin')
+            .then(res => res.json())
+            .then(data => setWeather(data))
+            .catch(err => console.error("Weather fetch failed", err));
+    }, []);
+
+    if (!weather) return null;
+
+    const currentTemp = Math.round(weather.current.temperature_2m);
+    const code = weather.current.weather_code;
+    const isRain = code > 50; // Simple check
+
+    return (
+        <div className="flex items-center gap-4 px-3 py-1 bg-black/50 border border-zinc-800 text-xs font-mono text-zinc-400">
+            <div className="flex items-center gap-2">
+                {isRain ? <CloudRain className="w-4 h-4 text-blue-400" /> : <Sun className="w-4 h-4 text-yellow-500" />}
+                <span className="text-white font-bold">{currentTemp}°C</span>
+            </div>
+            <div className="h-4 w-[1px] bg-zinc-700"></div>
+            <div className="uppercase tracking-wide">FERROPOLIS</div>
+        </div>
+    );
+};
 
 const DynamicBackground = ({ selectedStageId, festivalStages }) => (
     <div className="fixed inset-0 z-0 pointer-events-none">
@@ -206,6 +241,7 @@ const HiveDashboard = () => {
     const [squad, setSquad] = useState(initialSquad);
     const [personalGear, setPersonalGear] = useState(initialPersonalGear);
     const [groupGear, setGroupGear] = useState(initialGroupGear);
+    const [artistVotes, setArtistVotes] = useState({}); // { artistName: [userId, userId...] }
     const [selectedStageId, setSelectedStageId] = useState(festivalStages[0].id);
 
     // Initialize currentUser from localStorage to prevent Modal flash
@@ -226,6 +262,10 @@ const HiveDashboard = () => {
             // Load Group Gear
             const { data: groupData } = await supabase.from('hive_state').select('value').eq('key', 'hive_group_gear').single();
             if (groupData) setGroupGear(groupData.value);
+
+            // Load Artist Votes
+            const { data: votesData } = await supabase.from('hive_state').select('value').eq('key', 'hive_artist_votes').single();
+            if (votesData) setArtistVotes(votesData.value);
         };
 
         fetchGlobalData();
@@ -247,6 +287,7 @@ const HiveDashboard = () => {
         const { key, value } = payload.new;
         if (key === 'hive_squad') setSquad(value);
         if (key === 'hive_group_gear') setGroupGear(value);
+        if (key === 'hive_artist_votes') setArtistVotes(value);
 
         // Note: Personal gear updates handled via specific subscription in separate useEffect
     };
@@ -320,6 +361,30 @@ const HiveDashboard = () => {
         const newGear = groupGear.map(i => i.id === id ? { ...i, checked: !i.checked } : i);
         setGroupGear(newGear);
         saveState('hive_group_gear', newGear);
+    };
+
+    const assignGroupItem = (itemId, userId) => {
+        const newGear = groupGear.map(i => i.id === itemId ? { ...i, assignedTo: userId } : i);
+        setGroupGear(newGear);
+        saveState('hive_group_gear', newGear);
+    };
+
+    const toggleArtistVote = (artistName) => {
+        if (!currentUser) return;
+
+        const currentVotes = artistVotes[artistName] || [];
+        const hasVoted = currentVotes.includes(currentUser);
+
+        let newVotes;
+        if (hasVoted) {
+            newVotes = currentVotes.filter(id => id !== currentUser);
+        } else {
+            newVotes = [...currentVotes, currentUser];
+        }
+
+        const newArtistVotes = { ...artistVotes, [artistName]: newVotes };
+        setArtistVotes(newArtistVotes);
+        saveState('hive_artist_votes', newArtistVotes);
     };
 
     // Glitch loop
@@ -493,6 +558,7 @@ const HiveDashboard = () => {
                             <MapPin className="w-4 h-4" />
                             <span>FERROPOLIS / DE</span>
                         </div>
+                        <WeatherWidget />
                     </div>
                 </div>
             </header>
@@ -646,18 +712,35 @@ const HiveDashboard = () => {
                                         {groupGear.map((item) => (
                                             <div
                                                 key={item.id}
-                                                onClick={() => toggleGroupCheck(item.id)}
-                                                className={`flex items-center justify-between p-3 border-l-2 transition-all cursor-pointer hover:pl-6
-                                            ${item.checked ? 'border-zinc-700 bg-zinc-900/30 text-zinc-600' : 'border-hive-red bg-black text-white hover:bg-zinc-900'}
+                                                className={`flex flex-col p-3 border-l-2 transition-all 
+                                            ${item.checked ? 'border-zinc-700 bg-zinc-900/30 text-zinc-600' : 'border-hive-red bg-black text-white'}
                                             `}
                                             >
-                                                <div className="flex items-center gap-3">
-                                                    <div className={`w-4 h-4 border flex items-center justify-center ${item.checked ? 'border-zinc-700' : 'border-hive-red'}`}>
-                                                        {item.checked && <div className="w-2 h-2 bg-zinc-600"></div>}
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => toggleGroupCheck(item.id)}>
+                                                        <div className={`w-4 h-4 border flex items-center justify-center ${item.checked ? 'border-zinc-700' : 'border-hive-red'}`}>
+                                                            {item.checked && <div className="w-2 h-2 bg-zinc-600"></div>}
+                                                        </div>
+                                                        <span className={`uppercase font-bold text-sm tracking-wider ${item.checked ? 'line-through' : ''}`}>{item.item}</span>
                                                     </div>
-                                                    <span className={`uppercase font-bold text-sm tracking-wider ${item.checked ? 'line-through' : ''}`}>{item.item}</span>
+                                                    {item.critical && !item.checked && <Zap className="w-4 h-4 text-hive-red animate-pulse" />}
                                                 </div>
-                                                {item.critical && !item.checked && <Zap className="w-4 h-4 text-hive-red animate-pulse" />}
+
+                                                {/* ASSIGNEE SELECTOR */}
+                                                <div className="flex items-center gap-2 pl-7">
+                                                    <span className="text-[10px] text-zinc-500 font-mono uppercase">ASSIGNÉ À:</span>
+                                                    <select
+                                                        className="bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-300 uppercase px-1 py-0.5 outline-none hover:border-hive-red transition-colors"
+                                                        value={item.assignedTo || ""}
+                                                        onChange={(e) => assignGroupItem(item.id, e.target.value ? parseInt(e.target.value) : null)}
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    >
+                                                        <option value="">-- PERSONNE --</option>
+                                                        {squad.map(member => (
+                                                            <option key={member.id} value={member.id}>{member.name}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -697,16 +780,34 @@ const HiveDashboard = () => {
                                     {/* ARTIST LIST OR LOCKED STATE */}
                                     {festivalStages.find(s => s.id === selectedStageId)?.artists.length > 0 ? (
                                         <div className="flex flex-wrap items-center align-middle content-start gap-x-3 gap-y-1 text-justify">
-                                            {festivalStages.find(s => s.id === selectedStageId)?.artists.map((artist, idx, arr) => (
-                                                <React.Fragment key={idx}>
-                                                    <span className="text-lg md:text-2xl font-black text-zinc-300 uppercase tracking-tight hover:text-white hover:scale-105 transition-all cursor-default leading-none">
-                                                        {artist}
-                                                    </span>
-                                                    {idx !== arr.length - 1 && (
-                                                        <span className="text-hive-red font-black text-xl select-none">|</span>
-                                                    )}
-                                                </React.Fragment>
-                                            ))}
+                                            {festivalStages.find(s => s.id === selectedStageId)?.artists.map((artist, idx, arr) => {
+                                                const votes = artistVotes[artist] || [];
+                                                const isVoted = votes.includes(currentUser);
+
+                                                return (
+                                                    <React.Fragment key={idx}>
+                                                        <div className="inline-flex items-center gap-2 group/artist">
+                                                            <span className="text-lg md:text-2xl font-black text-zinc-300 uppercase tracking-tight hover:text-white transition-all cursor-default leading-none">
+                                                                {artist}
+                                                            </span>
+                                                            <button
+                                                                onClick={() => toggleArtistVote(artist)}
+                                                                className={`
+                                                                flex items-center gap-1 transition-all duration-300
+                                                                ${isVoted ? 'text-hive-red opacity-100 scale-110' : 'text-zinc-600 opacity-0 group-hover/artist:opacity-100 hover:text-hive-red hover:scale-110'}
+                                                                ${!currentUser && 'pointer-events-none hidden'}
+                                                            `}
+                                                            >
+                                                                <Heart className={`w-4 h-4 ${isVoted ? 'fill-hive-red' : ''}`} />
+                                                                {votes.length > 0 && <span className="text-[10px] font-mono font-bold align-top">{votes.length}</span>}
+                                                            </button>
+                                                        </div>
+                                                        {idx !== arr.length - 1 && (
+                                                            <span className="text-hive-red font-black text-xl select-none">|</span>
+                                                        )}
+                                                    </React.Fragment>
+                                                )
+                                            })}
                                         </div>
                                     ) : (
                                         /* LOCKED / TBA STATE */
