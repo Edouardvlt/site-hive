@@ -25,6 +25,24 @@ export default defineConfig({
                         type: 'image/webp'
                     }
                 ]
+            },
+            workbox: {
+                runtimeCaching: [
+                    {
+                        urlPattern: ({ url }) => url.pathname.includes('/assets/hive/'),
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'hive-assets-cache',
+                            expiration: {
+                                maxEntries: 100,
+                                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 Days
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200]
+                            }
+                        }
+                    }
+                ]
             }
         })
     ],
