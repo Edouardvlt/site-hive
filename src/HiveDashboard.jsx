@@ -98,10 +98,9 @@ const HiveDashboard = () => {
         { id: 3, name: "Titouan", role: "Alcoolique numéro 3", ticket: false, paid: false, code: "MBR- 03" },
         { id: 4, name: "Nicolas", role: "Alcoolique numéro 4", ticket: false, paid: false, code: "MBR-04" },
         { id: 5, name: "Thibault", role: "Alcoolique numéro 5", ticket: true, paid: false, code: "MBR-05" },
-        { id: 6, name: "Julien", role: "Alcoolique numéro 6", ticket: false, paid: false, code: "MBR-06" },
+        { id: 6, name: "Perruchas", role: "Alcoolique numéro 6", ticket: false, paid: false, code: "MBR-06" },
         { id: 7, name: "Plan", role: "Alcoolique numéro 7", ticket: true, paid: true, code: "MBR-07" },
         { id: 8, name: "Roman", role: "Alcoolique numéro 8", ticket: false, paid: false, code: "MBR-08" },
-        { id: 9, name: "Antoine", role: "Alcoolique numéro 9", ticket: false, paid: false, code: "MBR-09" },
     ];
 
     const initialPersonalGear = [
